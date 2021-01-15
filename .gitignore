@@ -6,6 +6,7 @@ timeline.json
 test-apps/
 lib/
 .eslintcache
+coverage
 
 # https://github.com/github/gitignore
 
