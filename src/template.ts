@@ -90,7 +90,7 @@ export const writeTemplate = async (inputFile: any, properties: any, templateDir
 
 export const generateFiles = async (properties: any, template: string) => {
   const templateDir = getTemplateDir(template)
-  const globPattern = ['./**/*']
+  const globPattern = ['./**/*', '!./template.json']
   // console.log('templating files template:', template, globPattern)
   const templateFiles = await globby(globPattern, { cwd: templateDir })
   return Promise.all(templateFiles.map((item: any) => writeTemplate(item, properties, templateDir.toString())))
