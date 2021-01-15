@@ -2,7 +2,7 @@
 import { getTemplateParams } from './prompt'
 import { generateFiles } from './template'
 
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', (error) => {
   console.error(error)
   process.exit(1)
 })

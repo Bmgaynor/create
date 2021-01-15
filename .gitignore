@@ -5,6 +5,7 @@ timeline.json
 .settings
 test-apps/
 lib/
+.eslintcache
 
 # https://github.com/github/gitignore
 

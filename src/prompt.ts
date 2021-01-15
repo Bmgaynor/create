@@ -2,61 +2,58 @@ import inquirer from 'inquirer'
 import { getTemplateConfig } from './template'
 import { argv } from './args'
 
-const RESERVED_PROMPTS = [
-  'name',
-  'template'
-]
+const RESERVED_PROMPTS = ['name', 'template']
 
-async function getCustomPrompts (template: string) {
+async function getCustomPrompts(template: string) {
   const config = await getTemplateConfig(template)
   const { prompts } = config
-  if (prompts.some(prompt => RESERVED_PROMPTS.includes(prompt.name))) {
-    throw Error(`Template include one of the reseved prompts: ${RESERVED_PROMPTS}`)
+  if (prompts.some((prompt) => RESERVED_PROMPTS.includes(prompt.name))) {
+    throw Error(
+      `Template include one of the reseved prompts: ${RESERVED_PROMPTS}`
+    )
   }
   return prompts ?? []
 }
 
-async function getName () {
+async function getName() {
   if (argv._[0]) {
     return argv._[0]
   } else {
     const response = await inquirer.prompt([
       {
         name: 'name',
-        message: 'what is the name of your project?'
-      }
+        message: 'what is the name of your project?',
+      },
     ])
     return response.name
   }
 }
 
-async function getTemplate () {
+async function getTemplate() {
   if (argv.t) {
     return argv.t
   } else {
-    const response = await inquirer.prompt([{
-      name: 'template',
-      message: 'What template would you like to use?',
-      choices: [
-        'module'
-      ],
-      type: 'list'
-    }])
+    const response = await inquirer.prompt([
+      {
+        name: 'template',
+        message: 'What template would you like to use?',
+        choices: ['module'],
+        type: 'list',
+      },
+    ])
     return response.template
   }
 }
 
-export async function getTemplateParams () {
+export async function getTemplateParams() {
   const template = await getTemplate()
   const name = await getName()
 
   const templatePrompts = await getCustomPrompts(template)
-  const answers = await inquirer.prompt([
-    ...(templatePrompts)
-  ])
+  const answers = await inquirer.prompt([...templatePrompts])
   return {
     template,
     name,
-    ...answers
+    ...answers,
   }
 }
