@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const { getTemplateParams } = require('./prompt')
-const { generateFiles } = require('./template')
+import { getTemplateParams } from './prompt'
+import { generateFiles } from './template'
 
 process.on('unhandledRejection', error => {
   console.error(error)

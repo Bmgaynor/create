@@ -1,9 +1,9 @@
-const _ = require('lodash')
-const fs = require('fs')
-const globby = require('globby')
-const shell = require('shelljs')
-const path = require('path')
-const { promisify } = require('util')
+import _ from 'lodash'
+import fs from 'fs'
+import globby from 'globby'
+import shell from 'shelljs'
+import path from 'path'
+import { promisify } from 'util'
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -22,7 +22,7 @@ export const writeTemplate = async (inputFile: any, properties: any) => {
   const outputFile = `./${getOutputFile(inputFile)}`
   const data = await readFile(path.join(templateDir, inputFile))
 
-  const template = _.template(data, underscoreParams)
+  const template = _.template(JSON.parse(data.toString()), underscoreParams)
 
   if (fs.existsSync(outputFile)) {
     console.log('file exists: ', outputFile)
