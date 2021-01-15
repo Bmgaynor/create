@@ -1,16 +1,11 @@
-import inquirer, { QuestionCollection } from 'inquirer'
+import inquirer from 'inquirer'
+import { getTemplateConfig } from './template'
 import { argv } from './args'
 
-interface CustomPrompts {
-  [key: string]: QuestionCollection[]
-}
-
-const customPrompts: CustomPrompts = {
-  module: []
-}
-
 async function getCustomPrompts (template: string) {
-  return customPrompts[template] ?? [] // todo: read from template
+  const config = await getTemplateConfig(template)
+  const { prompts } = config
+  return prompts ?? []
 }
 
 async function getName () {

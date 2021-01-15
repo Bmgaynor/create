@@ -4,6 +4,7 @@ import globby from 'globby'
 import shell from 'shelljs'
 import path from 'path'
 import { promisify } from 'util'
+import { QuestionCollection } from 'inquirer'
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -14,6 +15,27 @@ const getOutputFile = (file: any) => file.replace(/templates\//g, '')
 const TEMPLATE_NAMES = [
   'module'
 ]
+
+type TemplateConfig = {
+  prompts: QuestionCollection[]
+}
+
+const DEAULT_CONFIG: TemplateConfig = {
+  prompts: []
+}
+
+export async function getTemplateConfig (template: string): Promise<TemplateConfig> {
+  const templateDir = getTemplateDir(template)
+  try {
+    // console.log('looking for', path.join(templateDir, 'template.json'))
+    const config = await readFile(path.join(templateDir, 'template.json'))
+    return JSON.parse(config.toString())
+  } catch (error) {
+    console.error(error)
+    console.warn('no config found for template: ', template)
+    return DEAULT_CONFIG
+  }
+}
 
 function getTemplateDir (template: string) {
   if (TEMPLATE_NAMES.includes(template)) {
