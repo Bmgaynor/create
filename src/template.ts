@@ -11,6 +11,18 @@ const writeFile = promisify(fs.writeFile)
 const getOutputFile = (file: any) => file.replace(/templates\//g, '')
   .replace(/^_|(\/)_/g, '$1.') // change _ file back to . files
 
+const TEMPLATE_NAMES = [
+  'module'
+]
+
+function getTemplateDir (template: string) {
+  if (TEMPLATE_NAMES.includes(template)) {
+    return path.join(__dirname, `../templates/${template}`)
+  } else { // relative
+    return path.join(process.cwd(), template)
+  }
+}
+
 function getOutputDir (name: string) {
   const currentDir = path.basename(process.cwd())
   if (currentDir === name) {
@@ -55,7 +67,7 @@ export const writeTemplate = async (inputFile: any, properties: any, templateDir
 }
 
 export const generateFiles = async (properties: any, template: string) => {
-  const templateDir = path.join(__dirname, `../templates/${template}`)
+  const templateDir = getTemplateDir(template)
   const globPattern = ['./**/*']
   // console.log('templating files template:', template, globPattern)
   const templateFiles = await globby(globPattern, { cwd: templateDir })
