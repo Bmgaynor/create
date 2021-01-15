@@ -8,12 +8,10 @@ import { promisify } from 'util'
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
 
-const templateDir = path.join(__dirname, '../')
-
 const getOutputFile = (file: any) => file.replace(/templates\//g, '')
   .replace(/^_|(\/)_/g, '$1.') // change _ file back to . files
 
-export const writeTemplate = async (inputFile: any, properties: any) => {
+export const writeTemplate = async (inputFile: any, properties: any, templateDir: string) => {
   const underscoreParams = {
     evaluate: /\<\%([\s\S]+?)\%\>/g, // eslint-disable-line
     interpolate: /\<\%\=([\s\S]+?)\%\>/g, // eslint-disable-line
@@ -30,13 +28,17 @@ export const writeTemplate = async (inputFile: any, properties: any) => {
   }
 
   shell.mkdir('-p', path.dirname(outputFile))
+  console.log(`writing ${outputFile}`)
   await writeFile(outputFile, template({
     imports: { _ },
     properties
   }))
 }
 
-export const generateFiles = async (properties: any, globPattern: any) => {
+export const generateFiles = async (properties: any, template: string) => {
+  const templateDir = path.join(__dirname, `../templates/${template}`)
+  const globPattern = ['./**/*']
+  // console.log('templating files template:', template, globPattern)
   const templateFiles = await globby(globPattern, { cwd: templateDir })
-  return Promise.all(templateFiles.map((item: any) => writeTemplate(item, properties)))
+  return Promise.all(templateFiles.map((item: any) => writeTemplate(item, properties, templateDir.toString())))
 }

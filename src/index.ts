@@ -9,7 +9,8 @@ process.on('unhandledRejection', error => {
 
 const go = async () => {
   const templateParams = await getTemplateParams()
-  await generateFiles(templateParams, ['templates/**/*'])
+  const { template } = templateParams
+  await generateFiles(templateParams, template)
 }
 
 go()

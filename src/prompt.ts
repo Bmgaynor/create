@@ -1,12 +1,14 @@
 import inquirer from 'inquirer'
 
-const prompts = [
-  {
-    name: 'name',
-    message: 'What is the name of your module'
-  }
-]
-
 export async function getTemplateParams () {
-  return inquirer.prompt(prompts)
+  return inquirer.prompt([
+    {
+      name: 'template',
+      message: 'What template would you like to use?',
+      choices: [
+        'module'
+      ],
+      type: 'list'
+    }
+  ])
 }
