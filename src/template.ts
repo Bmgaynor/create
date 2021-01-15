@@ -11,13 +11,33 @@ const writeFile = promisify(fs.writeFile)
 const getOutputFile = (file: any) => file.replace(/templates\//g, '')
   .replace(/^_|(\/)_/g, '$1.') // change _ file back to . files
 
+function getOutputDir (name: string) {
+  const currentDir = path.basename(process.cwd())
+  if (currentDir === name) {
+    return './'
+  } else {
+    return `./${name}/`
+  }
+}
+
+function prepareOutputDir (name: string): void {
+  const outputDir = getOutputDir(name)
+  shell.mkdir('-p', path.dirname(outputDir))
+}
 export const writeTemplate = async (inputFile: any, properties: any, templateDir: string) => {
+  const { name } = properties
   const underscoreParams = {
     evaluate: /\<\%([\s\S]+?)\%\>/g, // eslint-disable-line
     interpolate: /\<\%\=([\s\S]+?)\%\>/g, // eslint-disable-line
     escape: /\<-([\s\S]+?)\>/g // eslint-disable-line
   }
-  const outputFile = `./${getOutputFile(inputFile)}`
+  // user gives 'my-app' as the name
+  // user is in projects folder  ->  create folder my-app and template to it
+  // user is in my-app folder -> template to ./
+  // user is in pojects folder with an empty/sorta my-app folder -> try templating files to 'my-app' folder
+  const outputDir = getOutputDir(name)
+  prepareOutputDir(name)
+  const outputFile = `${outputDir}${getOutputFile(inputFile)}` // ./my-app/package.json
   const data = await readFile(path.join(templateDir, inputFile))
   const template = _.template(data.toString(), underscoreParams)
 
