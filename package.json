@@ -3,6 +3,11 @@
   "version": "1.10.6",
   "description": "Scaffold out any applications",
   "bin": "lib/index.js",
+  "author": {
+    "email": "brad@bradgaynor.com",
+    "name": "Bradley Gaynor",
+    "url": "http://www.bradgaynor.com"
+  },
   "homepage": "",
   "scripts": {
     "lint": "u lint",
