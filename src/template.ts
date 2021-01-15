@@ -19,8 +19,7 @@ export const writeTemplate = async (inputFile: any, properties: any, templateDir
   }
   const outputFile = `./${getOutputFile(inputFile)}`
   const data = await readFile(path.join(templateDir, inputFile))
-
-  const template = _.template(JSON.parse(data.toString()), underscoreParams)
+  const template = _.template(data.toString(), underscoreParams)
 
   if (fs.existsSync(outputFile)) {
     console.log('file exists: ', outputFile)
