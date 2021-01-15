@@ -2,9 +2,17 @@ import inquirer from 'inquirer'
 import { getTemplateConfig } from './template'
 import { argv } from './args'
 
+const RESERVED_PROMPTS = [
+  'name',
+  'template'
+]
+
 async function getCustomPrompts (template: string) {
   const config = await getTemplateConfig(template)
   const { prompts } = config
+  if (prompts.some(prompt => RESERVED_PROMPTS.includes(prompt.name))) {
+    throw Error(`Template include one of the reseved prompts: ${RESERVED_PROMPTS}`)
+  }
   return prompts ?? []
 }
 

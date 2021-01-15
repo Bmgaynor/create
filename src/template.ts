@@ -4,7 +4,7 @@ import globby from 'globby'
 import shell from 'shelljs'
 import path from 'path'
 import { promisify } from 'util'
-import { QuestionCollection } from 'inquirer'
+import { Question } from 'inquirer'
 
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
@@ -17,7 +17,7 @@ const TEMPLATE_NAMES = [
 ]
 
 type TemplateConfig = {
-  prompts: QuestionCollection[]
+  prompts: Question[]
 }
 
 const DEAULT_CONFIG: TemplateConfig = {
