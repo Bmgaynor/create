@@ -13,6 +13,7 @@
   "engines": {
     "node": ">= 8.4.0"
   },
+  "license": "MIT",
   "dependencies": {
     "check-node-version": "2.1.0",
     "colors": "1.4.0",
