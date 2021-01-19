@@ -1,4 +1,4 @@
-# @bmg/create
+# @bradg/create
 
 utility for scaffolding out projects
 
