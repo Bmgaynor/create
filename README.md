@@ -10,5 +10,5 @@ npm link
 npm run watch
 
 
-npx @bmg/create
+npx @bradg/create
 ```

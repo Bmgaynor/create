@@ -1,7 +1,7 @@
 import inquirer from 'inquirer'
 import { getTemplateConfig } from './template'
 import { argv } from './args'
-
+import { TEMPLATE_NAMES } from './template'
 const RESERVED_PROMPTS = ['name', 'template']
 
 async function getCustomPrompts(template: string) {
@@ -37,7 +37,7 @@ async function getTemplate() {
       {
         name: 'template',
         message: 'What template would you like to use?',
-        choices: ['module'],
+        choices: TEMPLATE_NAMES,
         type: 'list',
       },
     ])

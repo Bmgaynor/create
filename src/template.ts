@@ -12,7 +12,7 @@ const writeFile = promisify(fs.writeFile)
 const getOutputFile = (file: any) =>
   file.replace(/templates\//g, '').replace(/^_|(\/)_/g, '$1.') // change _ file back to . files
 
-const TEMPLATE_NAMES = ['module']
+export const TEMPLATE_NAMES = ['module', 'template']
 
 type TemplateConfig = {
   prompts: Question[]
@@ -96,9 +96,14 @@ export const writeTemplate = async (
   )
 }
 
+export const getShouldExcludeTemplateConfig = (template: string) => {
+  return template !== 'template'
+}
+
 export const generateFiles = async (properties: any, template: string) => {
   const templateDir = getTemplateDir(template)
-  const globPattern = ['./**/*', '!./template.json']
+  const shouldExcludeTemplateConfig = getShouldExcludeTemplateConfig(template)
+  const globPattern = ['./**/*', ...(shouldExcludeTemplateConfig ? ['!./template.json']: [])]
   // console.log('templating files template:', template, globPattern)
   const templateFiles = await globby(globPattern, { cwd: templateDir })
   return Promise.all(
