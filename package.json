@@ -47,7 +47,9 @@
     "semantic-release": "^17.3.3"
   },
   "release": {
-    "branches": ["main"]
+    "branches": [
+      "main"
+    ]
   },
   "repository": {
     "type": "git",
